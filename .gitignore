@@ -1,0 +1,23 @@
+# 환경변수
+backend/.env
+frontend/.env
+
+# Spring / Gradle
+.gradle/
+backend/.gradle/
+backend/build/
+
+# React / Vite
+frontend/node_modules/
+frontend/dist/
+
+# IntelliJ
+.idea/
+*.iml
+
+# VSCode
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
