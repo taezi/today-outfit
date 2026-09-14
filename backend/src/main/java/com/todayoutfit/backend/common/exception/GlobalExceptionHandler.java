@@ -16,6 +16,12 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(exception.getMessage());
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleIllegalStateException(IllegalStateException exception) {
+        return new ErrorResponse(exception.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {

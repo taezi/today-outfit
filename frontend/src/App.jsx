@@ -1,3 +1,4 @@
+import { CircleUserRound, House, LogIn, LogOut, Shirt, UserPlus } from "lucide-react";
 import { NavLink, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import MainPage from "./pages/MainPage.jsx";
@@ -19,22 +20,38 @@ function App() {
     <div className="app-shell">
       <header className="app-header">
         <NavLink className="brand-link" to="/">
+          <span className="brand-icon">
+            <Shirt size={20} />
+          </span>
           오늘의 착장
         </NavLink>
         <nav className="app-nav">
-          <NavLink to="/">메인</NavLink>
+          <NavLink to="/">
+            <House size={16} />
+            홈
+          </NavLink>
           {isLoggedIn ? (
             <>
-              <NavLink to="/mypage">마이페이지</NavLink>
+              <NavLink to="/mypage">
+                <CircleUserRound size={16} />
+                마이페이지
+              </NavLink>
               <span className="nav-user-name">{user?.nickname}님</span>
               <button className="nav-button" type="button" onClick={handleLogout}>
+                <LogOut size={16} />
                 로그아웃
               </button>
             </>
           ) : (
             <>
-              <NavLink to="/login">로그인</NavLink>
-              <NavLink to="/signup">회원가입</NavLink>
+              <NavLink to="/login">
+                <LogIn size={16} />
+                로그인
+              </NavLink>
+              <NavLink to="/signup">
+                <UserPlus size={16} />
+                회원가입
+              </NavLink>
             </>
           )}
         </nav>

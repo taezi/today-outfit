@@ -1,6 +1,23 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import {
+  ChevronDown,
+  ChevronUp,
+  CircleUserRound,
+  Clock,
+  History,
+  Mail,
+  Pencil,
+  Save,
+  Settings,
+  Shirt,
+  ShoppingBag,
+  SlidersHorizontal,
+  Trash2,
+  User,
+  X,
+} from "lucide-react";
 import { getUserApi, updateUserApi } from "../api/userApi.js";
 import {
   deleteRecommendation,
@@ -136,132 +153,196 @@ function MyPage() {
   };
 
   return (
-    <section className="page-section">
-      <h1>마이페이지</h1>
-      <div className="panel">
+    <section className="page-section my-page">
+      <div className="main-hero my-page-hero">
+        <div>
+          <span className="eyebrow">
+            <CircleUserRound size={16} />
+            My closet
+          </span>
+          <h1>마이페이지</h1>
+          <p>
+            회원정보와 선호 스타일을 관리하고, 이전에 저장한 착장 추천 기록을 다시
+            확인할 수 있어요.
+          </p>
+        </div>
+        <div className="hero-weather-badge">
+          <History size={18} />
+          저장된 추천 {histories.length}개
+        </div>
+      </div>
+
+      <div className="panel profile-panel">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">
+              <Settings size={16} />
+              Profile
+            </span>
+            <h2>회원정보</h2>
+          </div>
+          {isLoggedIn && profile && !isEditing && (
+            <button className="secondary-button" type="button" onClick={handleEditClick}>
+              <Pencil size={16} />
+              회원정보 수정
+            </button>
+          )}
+        </div>
+
         {isLoggedIn && loading && <p>회원정보를 불러오는 중입니다.</p>}
         {isLoggedIn && error && <p className="error-text">{error}</p>}
         {isLoggedIn && profile && !isEditing && (
-          <dl className="profile-list">
-            <div>
-              <dt>이메일</dt>
-              <dd>{profile.email}</dd>
+          <>
+            <div className="profile-summary-card">
+              <div className="profile-avatar">
+                <User size={32} />
+              </div>
+              <div className="profile-summary-text">
+                <strong>{profile.nickname}</strong>
+                <span>{profile.email}</span>
+                <div className="profile-chip-row">
+                  <span className="profile-chip">
+                    {genderLabels[profile.gender] ?? profile.gender}
+                  </span>
+                  <span className="profile-chip">
+                    {ageGroupLabels[profile.ageGroup] ?? profile.ageGroup}
+                  </span>
+                  <span className="profile-chip">{profile.preferredStyle}</span>
+                </div>
+              </div>
             </div>
-            <div>
-              <dt>닉네임</dt>
-              <dd>{profile.nickname}</dd>
-            </div>
-            <div>
-              <dt>성별</dt>
-              <dd>{genderLabels[profile.gender] ?? profile.gender}</dd>
-            </div>
-            <div>
-              <dt>연령대</dt>
-              <dd>{ageGroupLabels[profile.ageGroup] ?? profile.ageGroup}</dd>
-            </div>
-            <div>
-              <dt>선호 스타일</dt>
-              <dd>{profile.preferredStyle}</dd>
-            </div>
-            <div>
-              <dt>추위 민감도</dt>
-              <dd>{profile.coldSensitivity}</dd>
-            </div>
-            <div>
-              <dt>더위 민감도</dt>
-              <dd>{profile.heatSensitivity}</dd>
-            </div>
-            <div>
-              <dt></dt>
-              <dd>
-                <button className="secondary-button" type="button" onClick={handleEditClick}>
-                  회원정보 수정
-                </button>
-              </dd>
-            </div>
-          </dl>
+
+            <dl className="profile-list">
+              <div>
+                <dt>
+                  <Mail size={15} />
+                  이메일
+                </dt>
+                <dd>{profile.email}</dd>
+              </div>
+              <div>
+                <dt>
+                  <User size={15} />
+                  닉네임
+                </dt>
+                <dd>{profile.nickname}</dd>
+              </div>
+              <div>
+                <dt>성별</dt>
+                <dd>{genderLabels[profile.gender] ?? profile.gender}</dd>
+              </div>
+              <div>
+                <dt>연령대</dt>
+                <dd>{ageGroupLabels[profile.ageGroup] ?? profile.ageGroup}</dd>
+              </div>
+              <div>
+                <dt>
+                  <Shirt size={15} />
+                  선호 스타일
+                </dt>
+                <dd>{profile.preferredStyle}</dd>
+              </div>
+              <div>
+                <dt>
+                  <SlidersHorizontal size={15} />
+                  추위 민감도
+                </dt>
+                <dd>{profile.coldSensitivity}</dd>
+              </div>
+              <div>
+                <dt>
+                  <SlidersHorizontal size={15} />
+                  더위 민감도
+                </dt>
+                <dd>{profile.heatSensitivity}</dd>
+              </div>
+            </dl>
+          </>
         )}
         {isLoggedIn && profile && isEditing && editForm && (
           <form className="form-panel embedded-form" onSubmit={handleSubmit}>
-            <label>
-              이메일
-              <input value={profile.email} disabled />
-            </label>
+            <div className="form-grid">
+              <label>
+                이메일
+                <input value={profile.email} disabled />
+              </label>
 
-            <label>
-              닉네임
-              <input
-                name="nickname"
-                value={editForm.nickname}
-                onChange={handleChange}
-                minLength={2}
-                maxLength={30}
-                required
-              />
-            </label>
+              <label>
+                닉네임
+                <input
+                  name="nickname"
+                  value={editForm.nickname}
+                  onChange={handleChange}
+                  minLength={2}
+                  maxLength={30}
+                  required
+                />
+              </label>
 
-            <label>
-              성별
-              <select name="gender" value={editForm.gender} onChange={handleChange}>
-                <option value="FEMALE">여성</option>
-                <option value="MALE">남성</option>
-              </select>
-            </label>
+              <label>
+                성별
+                <select name="gender" value={editForm.gender} onChange={handleChange}>
+                  <option value="FEMALE">여성</option>
+                  <option value="MALE">남성</option>
+                </select>
+              </label>
 
-            <label>
-              연령대
-              <select name="ageGroup" value={editForm.ageGroup} onChange={handleChange}>
-                <option value="TEENS">10대</option>
-                <option value="TWENTIES">20대</option>
-                <option value="THIRTIES">30대</option>
-                <option value="FORTIES">40대</option>
-                <option value="FIFTIES">50대 이상</option>
-              </select>
-            </label>
+              <label>
+                연령대
+                <select name="ageGroup" value={editForm.ageGroup} onChange={handleChange}>
+                  <option value="TEENS">10대</option>
+                  <option value="TWENTIES">20대</option>
+                  <option value="THIRTIES">30대</option>
+                  <option value="FORTIES">40대</option>
+                  <option value="FIFTIES">50대 이상</option>
+                </select>
+              </label>
 
-            <label>
-              선호 스타일
-              <input
-                name="preferredStyle"
-                value={editForm.preferredStyle}
-                onChange={handleChange}
-                maxLength={100}
-                required
-              />
-            </label>
+              <label className="form-field-wide">
+                선호 스타일
+                <input
+                  name="preferredStyle"
+                  value={editForm.preferredStyle}
+                  onChange={handleChange}
+                  maxLength={100}
+                  required
+                />
+              </label>
 
-            <label>
-              추위 민감도
-              <select
-                name="coldSensitivity"
-                value={editForm.coldSensitivity}
-                onChange={handleChange}
-              >
-                <option value="1">1 - 추위를 거의 안 탐</option>
-                <option value="2">2</option>
-                <option value="3">3 - 보통</option>
-                <option value="4">4</option>
-                <option value="5">5 - 추위를 많이 탐</option>
-              </select>
-            </label>
+              <label>
+                추위 민감도
+                <select
+                  name="coldSensitivity"
+                  value={editForm.coldSensitivity}
+                  onChange={handleChange}
+                >
+                  <option value="1">1 - 추위를 거의 안 탐</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - 보통</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - 추위를 많이 탐</option>
+                </select>
+              </label>
 
-            <label>
-              더위 민감도
-              <select
-                name="heatSensitivity"
-                value={editForm.heatSensitivity}
-                onChange={handleChange}
-              >
-                <option value="1">1 - 더위를 거의 안 탐</option>
-                <option value="2">2</option>
-                <option value="3">3 - 보통</option>
-                <option value="4">4</option>
-                <option value="5">5 - 더위를 많이 탐</option>
-              </select>
-            </label>
+              <label>
+                더위 민감도
+                <select
+                  name="heatSensitivity"
+                  value={editForm.heatSensitivity}
+                  onChange={handleChange}
+                >
+                  <option value="1">1 - 더위를 거의 안 탐</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - 보통</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - 더위를 많이 탐</option>
+                </select>
+              </label>
+            </div>
 
             <div className="form-actions">
               <button type="submit" disabled={saving}>
+                <Save size={16} />
                 {saving ? "저장 중" : "저장"}
               </button>
               <button
@@ -270,19 +351,33 @@ function MyPage() {
                 onClick={handleCancelClick}
                 disabled={saving}
               >
+                <X size={16} />
                 취소
               </button>
             </div>
           </form>
         )}
       </div>
+
       {isLoggedIn && (
         <div className="panel">
-          <h2>이전 착장 추천 기록</h2>
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">
+                <History size={16} />
+                History
+              </span>
+              <h2>이전 착장 추천 기록</h2>
+            </div>
+            <span className="history-count">{histories.length}개</span>
+          </div>
           {recommendationLoading && <p>추천 기록을 불러오는 중입니다.</p>}
           {recommendationError && <p className="error-text">{recommendationError}</p>}
           {!recommendationLoading && histories.length === 0 && (
-            <p>아직 저장된 추천 기록이 없습니다.</p>
+            <div className="history-empty">
+              <Shirt size={28} />
+              <p>아직 저장된 추천 기록이 없습니다.</p>
+            </div>
           )}
           {histories.length > 0 && (
             <div className="history-list">
@@ -292,9 +387,15 @@ function MyPage() {
                 return (
                   <article className="history-item" key={history.id}>
                     <div className="history-summary">
-                      <div>
-                        <time>{formatDateTime(history.createdAt)}</time>
-                        <p>{history.top} / {history.bottom} / {history.outer}</p>
+                      <div className="history-summary-main">
+                        <time>
+                          <Clock size={15} />
+                          {formatDateTime(history.createdAt)}
+                        </time>
+                        <p>
+                          <Shirt size={16} />
+                          {history.top} / {history.bottom} / {history.outer}
+                        </p>
                       </div>
                       <div className="history-actions">
                         <button
@@ -302,6 +403,7 @@ function MyPage() {
                           type="button"
                           onClick={() => handleToggleHistory(history.id)}
                         >
+                          {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                           {isOpen ? "닫기" : "자세히 보기"}
                         </button>
                         <button
@@ -310,6 +412,7 @@ function MyPage() {
                           onClick={() => handleDeleteHistory(history.id)}
                           disabled={recommendationLoading}
                         >
+                          <Trash2 size={16} />
                           삭제
                         </button>
                       </div>
@@ -341,7 +444,10 @@ function MyPage() {
                         </div>
                         {history.shoppingLinks?.length > 0 && (
                           <div className="shopping-link-list">
-                            <strong>무신사 검색 링크</strong>
+                            <strong>
+                              <ShoppingBag size={16} />
+                              무신사 검색 링크
+                            </strong>
                             <div>
                               {history.shoppingLinks.map((link) => (
                                 <a

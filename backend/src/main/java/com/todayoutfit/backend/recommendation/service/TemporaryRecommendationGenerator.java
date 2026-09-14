@@ -6,9 +6,11 @@ import com.todayoutfit.backend.weather.dto.WeatherForecastDto;
 import com.todayoutfit.backend.weather.dto.WeatherResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnProperty(name = "recommendation.mode", havingValue = "temporary", matchIfMissing = true)
 public class TemporaryRecommendationGenerator implements RecommendationGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(TemporaryRecommendationGenerator.class);

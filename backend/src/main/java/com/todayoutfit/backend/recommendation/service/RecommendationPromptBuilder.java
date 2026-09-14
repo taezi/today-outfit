@@ -39,6 +39,11 @@ public class RecommendationPromptBuilder {
         prompt.append("\n[응답 규칙]\n");
         prompt.append("응답은 반드시 아래 JSON 형식으로만 작성해줘.\n");
         prompt.append("설명 문장이나 코드블록 없이 JSON만 반환해줘.\n\n");
+        prompt.append("[추천 규칙]\n");
+        prompt.append("- top, bottom, outer, shoes에는 각각 가장 적합한 아이템 하나만 작성해줘.\n");
+        prompt.append("- \"또는\", \"혹은\", \"/\", 쉼표를 사용해서 여러 후보를 나열하지 마.\n");
+        prompt.append("- 애매한 표현 대신 실제 쇼핑 검색에 쓸 수 있는 짧고 구체적인 아이템명으로 작성해줘.\n");
+        prompt.append("- reason에는 왜 그 하나의 조합을 골랐는지 설명해줘.\n\n");
         prompt.append("{\n");
         prompt.append("  \"top\": \"상의\",\n");
         prompt.append("  \"bottom\": \"하의\",\n");
